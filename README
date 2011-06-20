@@ -1,0 +1,16 @@
+Logitech QuickCall USB VOIP Speakerphone under Linux
+
+http://ozlabs.org/~dgibson/quickcall.html
+
+
+The QuickCall USB Speakerphone is is a rather neat USB Audio speakerphone gadget (now end-of-life). Unfortunately Logitech only supplies Windows drivers. However, it's almost a standard USB Audio Class device, so with a few tweaks I've managed to get it working under Linux.
+
+The support is in the form of quickcalld. This is a special daemon designed to be launched automatically from udev. When a new Quickcall device is plugged in, udev will start quickcalld, which will issue a special vendor specific initialization command allowing the Quickcall to act as a USB audio device. The daemon then remains running as long as the device is plugged in. It watches for button presses on the device and responds to them: it responds to the volume knob by adjusting the device's audio volume, and to the mute button by toggling the speakerphone's audio input. The current version does not handle the "call" and "hangup" buttons, since that would involve interacting with other programs (e.g. skype or ekiga) on the system, and I haven't looked into implementing that yet.
+
+The source of quickcalld can be downloaded with:
+
+git clone git://dwg.ozlabs.org/~dwg-gitosis/repositories/quickcalld.git
+
+In order to build, you'll need the libusb and ALSA development libraries. Under Ubuntu and Debian those can be found in the packages libusb-dev and libasound2-dev.
+
+
